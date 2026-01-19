@@ -17,7 +17,7 @@ Objectives
 - Perform Exploratory Data Analysis (EDA) to understand employee demographics and job-related factors.
 - Visualize key trends in churn across departments, roles, and satisfaction levels.
 - Identify potential factors influencing employee turnover.
-- Summarize findings in an actionable way for HR or business decision-making.
+- Summarize findings actionably for HR or business decision-making.
 - Prepare the dataset for ML: handle missing values, encode categorical variables, and scale features if needed.
 - Build classification models to predict employee churn (e.g., Logistic Regression, Random Forest, XGBoost).
 - Evaluate model performance using accuracy, precision, recall, F1-score, and ROC-AUC.
@@ -45,3 +45,14 @@ Hypotheses:
 - There are significant differences in churn between departments.
 - Some job roles have significantly higher churn than others.
 - The tenure variable is among the top 5 predictors of churn.
+
+Feature Engineering Plan:
+- multiply job role with:
+- Tenure
+- Salary
+- Average Monthly Hours Worked
+- Average Monthly Hours Worked add to Distance from Home
+- multiply Average Monthly Hours Worked with:
+- Marital Status
+- Work-Life Balance
+- Education Level
