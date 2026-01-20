@@ -47,12 +47,12 @@ Hypotheses:
 - The tenure variable is among the top 5 predictors of churn.
 
 Feature Engineering Plan:
-- multiply job role with:
+1. multiply job role with:
 - Tenure
 - Salary
 - Average Monthly Hours Worked
-- Average Monthly Hours Worked add to Distance from Home
-- multiply Average Monthly Hours Worked with:
+2. Average Monthly Hours Worked add to Distance from Home
+3. multiply Average Monthly Hours Worked with:
 - Marital Status
 - Work-Life Balance
 - Education Level
