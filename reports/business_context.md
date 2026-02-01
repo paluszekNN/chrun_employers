@@ -1,6 +1,6 @@
 - Client: HR
 - The time horizon in this project is 1 year
-- There are no operational constraints but difference between average salary in a job role and individual salary with 
+- There are no operational constraints but the difference between average salary in a job role and individual salary with 
 promotion can say how many resources can the company he works for have for his position
 - Cost of intervention churn is in depends on Salary where low-cost is 2000, Base-case is 5000 and High-cost is 
 10_000 and it can be counted in test dataset as it is good model prediction by: Expected outflow x Effectiveness x Cost of outflow/employee - (Expected outflow x Cost of intervention/employe)
