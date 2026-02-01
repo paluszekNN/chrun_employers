@@ -7,6 +7,6 @@
 | LogisticRegression() with feature engineering       | 0.52 | 0.23          |
 | RandomForestClassifier() with feature engineering   | 0.5  | 0.18          |
 | XGBClassifier() with feature engineering            | 0.5  | 0.22          |
-| XGBClassifier() with feature engineering and tuning | 0.48 | 0.243         |
+| XGBClassifier() with feature engineering and tuning | 0.53 | 0.2       |
 
-Best model chosen for simulation is XGBClassifier() with feature engineering and tuning because of high precision at 100 as simulation will take 100 employers.
+Best model chosen for simulation is LogisticRegression() because of high precision at 100 as simulation will take 100 employers.
