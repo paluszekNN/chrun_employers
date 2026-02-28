@@ -10,6 +10,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GridSearchCV, StratifiedKFold
 from sklearn.pipeline import Pipeline
 import pandas as pd
+from validation import get_k_best_data
 
 
 def precision_at_k(estimator, X, y, k=100):
@@ -19,6 +20,22 @@ def precision_at_k(estimator, X, y, k=100):
     top_k_idx = np.argsort(y_score)[::-1][:k]
 
     return y[top_k_idx].sum() / k
+
+def metric_get_income(estimator, X, y, k=100):
+    x_k, y_k = get_k_best_data(X, y, estimator, k)
+    x_k['Churn'] = y
+    x_k['Cost of outflow'] = 0
+    less_then_3_tenure_mask = x_k['Tenure']<3
+    x_k['Cost of outflow'].loc[less_then_3_tenure_mask] = (x_k.loc[less_then_3_tenure_mask]['Salary']/12+x_k.loc[less_then_3_tenure_mask]['Salary']/12/x_k.loc[less_then_3_tenure_mask]['Average Monthly Hours Worked']*x_k.loc[less_then_3_tenure_mask]['Training Hours'])*x_k.loc[less_then_3_tenure_mask, 'Churn']*2
+    less_then_9_tenure_mask = x_k['Tenure']<9
+    x_k['Cost of outflow'].loc[less_then_9_tenure_mask] = (x_k.loc[less_then_9_tenure_mask]['Salary']/12*2+x_k.loc[less_then_9_tenure_mask]['Salary']/12/x_k.loc[less_then_9_tenure_mask]['Average Monthly Hours Worked']*x_k.loc[less_then_9_tenure_mask]['Training Hours'])*x_k.loc[less_then_9_tenure_mask, 'Churn']*2
+    greater_then_8_tenure_mask = x_k['Tenure']>8
+    x_k['Cost of outflow'].loc[greater_then_8_tenure_mask] = (x_k.loc[greater_then_8_tenure_mask]['Salary']/12*3+x_k.loc[greater_then_8_tenure_mask]['Salary']/12/x_k.loc[greater_then_8_tenure_mask]['Average Monthly Hours Worked']*x_k.loc[greater_then_8_tenure_mask]['Training Hours'])*x_k.loc[greater_then_8_tenure_mask, 'Churn']*2
+
+    x_k['Cost of intervention'] = 5000
+    x_k['score'] = x_k['Cost of outflow'] - x_k['Cost of intervention']
+    income = x_k['score'].sum()
+    return income / k
 
 def validate_model(model, X_test, y_test):
     y_score = model.predict_proba(X_test)[:, 1]
@@ -99,9 +116,10 @@ def get_results_from_grid(X_train, y_train):
         param_grid=param_grid,
         scoring={
             "auc": "roc_auc",
-            "p_at_k": precision_at_k
+            "p_at_k": precision_at_k,
+            "income_score": metric_get_income,
         },
-        refit='p_at_k',
+        refit='income_score',
         cv=cv,
         n_jobs=-4,
         verbose=3
